@@ -30,6 +30,7 @@ REGISTRATION, START_APP, CHOOSE_PREFRENCE = 1, 2, 3
 async def start(update, context):
     print(1111111111111111111111111111111111111)
     if await db.check_user(update.message.from_user.username):
+        print(7900000)
         return START_APP
     else:
         print(2222222222222222222222222222222222)
@@ -37,15 +38,17 @@ async def start(update, context):
 
 
 async def registration(update, context):
-    await db.add_user(update.message.from_user.username)
-    await update.message.reply_text(f"Привет,{update.message.from_user.username}, добро пожаловать в YourWalkBot, я помошник в твоих прогулках "
-                                    f"Чтобы окнчить регистрацию выберте какие меоприятия вы хотели бы видеть в своей ленте")
+    print(3333333333333333333333333333333444444444333333333)
+    db.add_user(update.message.from_user.username)
+    print(33333333333333333333333333333333333)
+    await update.message.reply_text(f"Привет,{update.message.from_user.username}, добро пожаловать в YourWalkBot, я помошник в твоих прогулках ")
     return CHOOSE_PREFRENCE
 
 
 async def choose_prefernce(update, context):
-    pass
-    # db.get_all_preferences()
+    prefernces = db.get_all_preferences()
+
+
 
 async def close_keyboard(update, context):
     await update.message.reply_text(

@@ -12,27 +12,24 @@ from data.Preference import Preference
 class DataBaseManager:
     def __init__(self):
         db_session.global_init("db/DataBase.db")
+        self.session = db_session.create_session()
 
 
-    async def check_user(self, username):
+    def check_user(self, username):
         session = db_session.create_session()
-        async with session as sess:
-            async with sess.begin():
-                query =  await sess.query(User).filter(User.username == username)
-                session.close()
-                return await query.first()
+        print(type(session))
+        query = self.session.query(User).filter(User.username == username)
+        return query.first()
 
 
 
-    async def add_user(self, username):
-        session = db_session.create_session()
-        async with session as sess:
-            async with sess.begin():
-                user = User()
-                user.username = username
-                sess.add(user)
-                await sess.commit()
-                session.close()
+    def add_user(self, username):
+       session = db_session.create_session()
+       user = User()
+       user.username = username
+       self.session.add(user)
+       self.session.commit()
+       self.session.close()
 
 
 
