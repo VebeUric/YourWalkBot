@@ -46,8 +46,8 @@ class DataBaseManager:
         self.session.commit()
 
     def get_all_preferences(self):
-        preference = Preference()
-        preferences = self.session.query(Preference).all()
+        preferences = [tag.name_tag for tag in self.session.query(Tag).all()]
+        print(preferences)
         return preferences
 
     def get_user_preferences(self, username):
