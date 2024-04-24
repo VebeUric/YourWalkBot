@@ -38,6 +38,11 @@ class DataBaseManager:
         name = self.session.query(User).filter(User.username == username).first()
         return name
 
+
+    def get_tag_id_from_name(self, tagname):
+       tag_id = self.session.query(Tag).filter(Tag.name_tag == tagname).first()
+       return tag_id.id
+
     def pass_preference(self, username, tag_id):
         preference = Preference()
         preference.useranme = username

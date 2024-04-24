@@ -1,6 +1,9 @@
 import requests
 import io
-import Image
+
+from PIL import Image
+
+
 def make_appropriate_scale(result_tmp_response):
     size_information = result_tmp_response["response"]["GeoObjectCollection"][
         "featureMember"][0]["GeoObject"]['boundedBy']
