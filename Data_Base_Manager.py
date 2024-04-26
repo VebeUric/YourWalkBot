@@ -38,7 +38,20 @@ class DataBaseManager:
         name = self.session.query(User).filter(User.username == username).first()
         return name
 
-
+    def get_events(self, tags):
+        res = []
+        if tags:
+            if len(tags) > 1:
+                for tag in tags:
+                    events = self.session.query(Events).filter(Events.tag == tag).all()
+                    res.append(*events)
+                return res
+            else:
+                events = self.session.query(Events).filter(Events.tag == tags[0]).all()
+                return events
+        else:
+            events = self.session.query(Events).all()
+            return events
     def get_tag_id_from_name(self, tagname):
        tag_id = self.session.query(Tag).filter(Tag.name_tag == tagname).first()
        return tag_id.id

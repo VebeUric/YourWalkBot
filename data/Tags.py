@@ -10,3 +10,4 @@ class Tag(SqlAlchemyBase):
     name_tag = sqlalchemy.Column(sqlalchemy.String)
 
     prefernce_tag = orm.relationship("Preference", back_populates="tag")
+    event_tag = orm.relationship("Events", back_populates="back_tag")
