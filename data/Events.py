@@ -3,7 +3,7 @@ import sqlalchemy.orm as orm
 from .db_session import SqlAlchemyBase
 
 
-class Events(SqlAlchemyBase):
+class Event(SqlAlchemyBase):
     __tablename__ = "Events"
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True, nullable=False)
 
@@ -12,6 +12,8 @@ class Events(SqlAlchemyBase):
     adress = sqlalchemy.Column(sqlalchemy.String)
     phone_number = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     url = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    tag = sqlalchemy.Column(sqlalchemy.String, sqlalchemy.ForeignKey('tags.name_tag'))
+    tag_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey('tags.id'))
+    photo_link = sqlalchemy.Column(sqlalchemy.String)
 
-    back_tag = orm.relationship('Tag')
+    wishlist_back = orm.relationship("Wishlist", back_populates="event_back")
+    back_tag = orm.relationship('Tag', back_populates="event_tag")

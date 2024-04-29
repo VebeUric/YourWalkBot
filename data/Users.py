@@ -11,3 +11,4 @@ class User(SqlAlchemyBase):
     username = sqlalchemy.Column(sqlalchemy.String, unique=True)
 
     preference = orm.relationship("Preference", back_populates="user")
+    wishlist_back = orm.relationship("Wishlist", back_populates="user_back")

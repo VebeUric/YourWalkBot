@@ -5,7 +5,8 @@ from data.__all_models import *
 from data.Tags import Tag
 from data.Users import User
 from data.Preference import Preference
-
+from data.Events import Event
+from data.WishList import Wishlist
 
 
 
@@ -32,22 +33,44 @@ class DataBaseManager:
        self.session.close()
 
 
-
+    def get_decription(self, link):
+        with open(str(link), 'r', encoding="utf-8") as file:
+             text = file.read()
+             return text
     def get_name(self, username):
         user = User()
         name = self.session.query(User).filter(User.username == username).first()
         return name
+
+    def add_to_wishlist(self, event_id, user_id):
+        wishlist = Wishlist()
+        wishlist.event = event_id
+        wishlist.user = user_id
+        self.session.add(wishlist)
+        self.session.commit()
+
+    def delete_from_wishlist(self, user_id, event_id):
+       event = self.session.query(Wishlist).filter(Wishlist.user == user_id and Wishlist.event == event_id).first()
+       self.session.delete(event)
+       self.session.commit()
 
     def get_events(self, tags):
         res = []
         if tags:
             if len(tags) > 1:
                 for tag in tags:
-                    events = self.session.query(Events).filter(Events.tag == tag).all()
+                    neded_tag_id = self.session.query(Tag).filter(Tag.name_tag == tag).first().id
+                    events = self.session.query(Event).filter(Event.tag_id == neded_tag_id).all()
                     res.append(*events)
+                print(res)
                 return res
             else:
-                events = self.session.query(Events).filter(Events.tag == tags[0]).all()
+                print(44444444444444444444444444)
+                tag_id_new = self.session.query(Tag).filter(Tag.name_tag == tags[0]).first().id
+                print(tag_id_new)
+                print(Event.name, tags[0])
+                neded_tag_id = self.session.query(Tag).filter(Tag.name_tag == tags[0]).first().id
+                events = self.session.query(Event).filter(Event.tag_id == neded_tag_id).all()
                 return events
         else:
             events = self.session.query(Events).all()
@@ -83,3 +106,4 @@ class DataBaseManager:
         if preference:
             self.session.delete(preference)
             self.session.commit()
+
