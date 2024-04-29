@@ -30,7 +30,7 @@ db = DataBaseManager()
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     username = update.message.from_user.username
     if db.check_user(username):
-
+        pass
     text = "Выберите действие"
     buttons = [
         [
