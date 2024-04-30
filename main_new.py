@@ -302,9 +302,8 @@ async def scroll_back_wishlist(update: Update, context: ContextTypes.DEFAULT_TYP
 async def delete_from_wishlist(update: Update, context: ContextTypes.DEFAULT_TYPE):
     events = db.get_my_events(context.user_data["user_id"])
     page = context.user_data['page']
-    print(page)
-    print(events)
-    event_id = events[page].id
+
+    event_id = events[page - 1].id
     db.delete_from_wishlist(context.user_data["user_id"], event_id)
     await update_events(update, context)
     return SHOW_EVENTS

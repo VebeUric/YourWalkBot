@@ -70,6 +70,7 @@ class DataBaseManager:
 
 
     def delete_from_wishlist(self, user_id, event_id):
+       print(890174087894)
        event = self.session.query(Wishlist).filter(Wishlist.user == user_id and Wishlist.event == event_id).first()
        self.session.delete(event)
        self.session.commit()
