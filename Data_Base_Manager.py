@@ -30,9 +30,13 @@ class DataBaseManager:
        user.username = username
        self.session.add(user)
        self.session.commit()
-       self.session.close()
 
 
+    def get_id_from_username(self, usrname):
+        id = None
+        if usrname:
+            id = self.session.query(User).filter(User.username == usrname).first().id
+        return id
     def get_decription(self, link):
         with open(str(link), 'r', encoding="utf-8") as file:
              text = file.read()
@@ -42,17 +46,34 @@ class DataBaseManager:
         name = self.session.query(User).filter(User.username == username).first()
         return name
 
+    def check_in_wishlist(self, event_id, user_id):
+        event = self.session.query(Wishlist).filter(Wishlist.event == event_id and Wishlist.user == user_id).first()
+        return event
+
+    def get_my_events(self, user_id):
+        my_events = []
+        my_events_id = self.session.query(Wishlist).filter(Wishlist.user == user_id).all()
+        print(my_events_id)
+        for event in my_events_id:
+            print(event.id)
+            res = self.session.query(Event).filter(Event.id == event.event).first()
+            my_events.append(res)
+        print(my_events)
+        return my_events
     def add_to_wishlist(self, event_id, user_id):
+        print(user_id)
         wishlist = Wishlist()
         wishlist.event = event_id
         wishlist.user = user_id
         self.session.add(wishlist)
         self.session.commit()
 
+
     def delete_from_wishlist(self, user_id, event_id):
        event = self.session.query(Wishlist).filter(Wishlist.user == user_id and Wishlist.event == event_id).first()
        self.session.delete(event)
        self.session.commit()
+
 
     def get_events(self, tags):
         res = []
@@ -62,7 +83,7 @@ class DataBaseManager:
                     neded_tag_id = self.session.query(Tag).filter(Tag.name_tag == tag).first().id
                     events = self.session.query(Event).filter(Event.tag_id == neded_tag_id).all()
                     res.append(*events)
-                print(res)
+                print([i.name for i in res])
                 return res
             else:
                 print(44444444444444444444444444)
