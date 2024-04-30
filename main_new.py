@@ -272,10 +272,10 @@ def get_places_disc(location):
         pass
 
 async def show_interesting_places(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    location = context.user_data.get("location")
-    if location:
-        text = get_places_disc(location)
-        await update.callback_query.edit_message_text(text=text,
+    ll =  44.0448
+    lat = 42.8581
+    text = get_places_disc(location)
+    await update.callback_query.edit_message_text(text=text,
                                                       reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(
                                                           "Вернуться в главное меню",
                                                           callback_data=str(BACK_TO_MENU))]]))
